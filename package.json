@@ -1,0 +1,14 @@
+{
+  "name": "WeatherTest",
+  "version": "1.0.0",
+  "description": "A test of React.js components to display the weather condition.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "weather"
+  ],
+  "author": "Marc Littlemore",
+  "license": "ISC"
+}
