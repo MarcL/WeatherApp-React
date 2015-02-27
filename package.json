@@ -12,6 +12,7 @@
   "author": "Marc Littlemore",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.12.0",
     "yql": "^1.0.2"
   }
 }
