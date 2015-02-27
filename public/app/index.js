@@ -3,7 +3,7 @@ var div = React.createFactory('div');
 var WeatherTitle = React.createFactory(React.createClass({
     render: function() {
         return div(null,
-                React.DOM.h3(null, this.props.city)
+                React.DOM.h2(null, this.props.city + ", " + this.props.country)
         );
     }
 }));
@@ -40,7 +40,7 @@ var WeatherIcon = React.createFactory(React.createClass({
             'wi-cloudy', // <code number="26" description="cloudy"/>
             'wi-night-alt-cloudy', // <code number="27" description="mostly cloudy (night)"/>
             'wi-day-cloudy', // <code number="28" description="mostly cloudy (day)"/>
-            'night-partly-cloudy', // <code number="29" description="partly cloudy (night)"/>
+            'wi-night-partly-cloudy', // <code number="29" description="partly cloudy (night)"/>
             'wi-day-cloudy', // <code number="30" description="partly cloudy (day)"/>
             'wi-night-clear', // <code number="31" description="clear (night)"/>
             'wi-day-sunny', // <code number="32" description="sunny"/>
@@ -133,7 +133,7 @@ var WeatherForecast = React.createFactory(React.createClass({
     render: function() {
         var forecastProps = this.props;
         var forecastComponents = this.props.forecast.map(function(forecastItem) {
-            return div({className: 'row'},
+            return div({className: 'row weatherForecastRow'},
                 div({className: 'col-xs-offset-4 col-xs-1'},
                     React.DOM.h3(null, forecastItem.day)
                 ),
@@ -148,9 +148,41 @@ var WeatherForecast = React.createFactory(React.createClass({
                 )
             );
         });
-        return div({className: 'WeatherForecastRow'},
+        return div({className: 'weatherForecast'},
             React.DOM.h3(null, '5 Day Forecast'),
             forecastComponents
+        );
+    }
+}));
+
+var SearchBox = React.createFactory(React.createClass({
+    onHandleSubmit: function(event) {
+        event.preventDefault();
+        var cityName = this.refs.citySearch.getDOMNode().value;
+        if (!cityName) {
+            return;
+        }
+
+        this.props.onCityChanged(cityName);
+        this.refs.citySearch.getDOMNode().value = '';
+    },
+    render: function() {
+        return div({className: 'weatherSearch row'},
+            div({className: 'col-xs-offset-4 col-xs-4'},
+                React.DOM.form({className: 'searchForm', onSubmit: this.onHandleSubmit},
+                    div({className: 'input-group'},
+                        React.DOM.input({
+                            className: 'form-control',
+                            type: 'text',
+                            placeholder: this.props.defaultValue,
+                            ref: 'citySearch'
+                        }),
+                        React.DOM.span({className: 'input-group-btn'},
+                            React.DOM.button({className: 'btn btn-default', type: 'submit'}, 'Search')
+                        )
+                    )
+                )
+            )
         );
     }
 }));
@@ -163,12 +195,16 @@ var WeatherApp = React.createFactory(React.createClass({
         return url;
     },
     retrieveWeatherData: function() {
-        console.log('retrieve weather data');
-
+        var city = this.state.city;
         var url = this.createYahooWeatherUrl(this.state.city, this.state.units);
         $.get(url, function(result) {
+            console.log('Retrieved weather for: ' + city);
             this.setState({weatherData: result.query.results.channel});
         }.bind(this));
+    },
+    onCityChanged: function(cityName) {
+        this.setState({city: cityName});
+        this.retrieveWeatherData();
     },
     getInitialState: function() {
         return {
@@ -184,6 +220,7 @@ var WeatherApp = React.createFactory(React.createClass({
     render: function() {
         if (this.state.weatherData) {
             return div(null,
+                SearchBox({defaultValue: this.props.city, onCityChanged: this.onCityChanged}),
                 // Weather Title
                 WeatherTitle({
                     city: this.state.weatherData.location.city,
