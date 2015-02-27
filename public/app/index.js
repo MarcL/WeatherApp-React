@@ -78,8 +78,13 @@ var WeatherIcon = React.createFactory(React.createClass({
 }));
 
 var WeatherTemperature = React.createFactory(React.createClass({
+    getDefaultProps: function() {
+        return {
+            weatherClassName: '',
+        };
+    },
     render: function() {
-        return React.DOM.span({className: 'weatherTemperature', style: {fontSize: this.props.fontSize}}, this.props.temperature + String.fromCharCode(176) + this.props.units);
+        return React.DOM.span({className: 'weatherTemperature ' + this.props.weatherClassName, style: {fontSize: this.props.fontSize}}, this.props.temperature + String.fromCharCode(176) + this.props.units);
     }
 }));
 
@@ -118,7 +123,7 @@ var YahooAttribution = React.createFactory(React.createClass({
                 React.DOM.h5(null, 'Weather provided by Yahoo')
             ),
             React.DOM.a({href: 'https://www.yahoo.com/?ilc=401', target: '_blank'},
-                React.DOM.img({src: 'https://poweredby.yahoo.com/purple.png', width: '134', height: '29'})
+                React.DOM.img({src: 'https://poweredby.yahoo.com/white.png', width: '134', height: '29'})
             )
         );
     }
@@ -136,10 +141,10 @@ var WeatherForecast = React.createFactory(React.createClass({
                     WeatherIcon({conditionCode: forecastItem.code, fontSize: '2em'})
                 ),
                 div({className: 'col-xs-1'},
-                    WeatherTemperature({temperature: forecastItem.high, units: forecastProps.units, fontSize: '2em'})
+                    WeatherTemperature({temperature: forecastItem.high, units: forecastProps.units, fontSize: '2em', weatherClassName: 'weatherTempHigh'})
                 ),
                 div({className: 'col-xs-1'},
-                    WeatherTemperature({temperature: forecastItem.low, units: forecastProps.units, fontSize: '2em'})
+                    WeatherTemperature({temperature: forecastItem.low, units: forecastProps.units, fontSize: '2em', weatherClassName: 'weatherTempLow'})
                 )
             );
         });
