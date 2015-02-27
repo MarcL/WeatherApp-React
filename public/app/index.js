@@ -194,17 +194,16 @@ var WeatherApp = React.createFactory(React.createClass({
 
         return url;
     },
-    retrieveWeatherData: function() {
-        var city = this.state.city;
-        var url = this.createYahooWeatherUrl(this.state.city, this.state.units);
+    retrieveWeatherData: function(cityName) {
+        var url = this.createYahooWeatherUrl(cityName, this.state.units);
         $.get(url, function(result) {
-            console.log('Retrieved weather for: ' + city);
-            this.setState({weatherData: result.query.results.channel});
+            if (result.query.results && result.query.results.channel) {
+                this.setState({weatherData: result.query.results.channel, city: cityName});
+            }
         }.bind(this));
     },
     onCityChanged: function(cityName) {
-        this.setState({city: cityName});
-        this.retrieveWeatherData();
+        this.retrieveWeatherData(cityName);
     },
     getInitialState: function() {
         return {
@@ -214,8 +213,7 @@ var WeatherApp = React.createFactory(React.createClass({
         };
     },
     componentDidMount: function() {
-        this.retrieveWeatherData();
-        setInterval(this.retrieveWeatherData, this.props.pollInterval);
+        this.retrieveWeatherData(this.state.city);
     },
     render: function() {
         if (this.state.weatherData) {
