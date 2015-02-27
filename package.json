@@ -2,9 +2,10 @@
   "name": "WeatherTest",
   "version": "1.0.0",
   "description": "A test of React.js components to display the weather condition.",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "jshint **.js",
+    "start": "node server.js"
   },
   "keywords": [
     "weather"
@@ -14,5 +15,8 @@
   "dependencies": {
     "express": "^4.12.0",
     "yql": "^1.0.2"
+  },
+  "devDependencies": {
+    "jshint": "^2.6.0"
   }
 }
