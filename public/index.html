@@ -18,19 +18,32 @@
 
     <style type="text/css">
     #mainDiv {
-        display: -webkit-flex;
-        display: flex;
-        justify-content: center;
-        text-align: center;
+      text-align: center;
     }
 
     .wi-5x{
       font-size: 5em;
     }
+
+    #weatherInfo {
+      padding: 20px 0 0 20px;
+    }
+
+    .weatherTemperature {
+      font-size: 5em;
+    }
+
+    .wi { padding-top: 20px; }
     </style>
   </head>
   <body>
-    <div id="mainDiv"></div>
-    <script src="app/index.js"></script>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12">
+        <div id="mainDiv"></div>
+        <script src="app/index.js"></script>
+      </div>
+    </div>
+  </div>
   </body>
 </html>

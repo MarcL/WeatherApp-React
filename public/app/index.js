@@ -3,8 +3,7 @@ var div = React.createFactory('div');
 var WeatherTitle = React.createFactory(React.createClass({
     render: function() {
         return div(null,
-                React.DOM.h1(null, this.props.city),
-                React.DOM.h3(null, this.props.country)
+                React.DOM.h3(null, this.props.city)
         );
     }
 }));
@@ -80,10 +79,20 @@ var WeatherIcon = React.createFactory(React.createClass({
 
 var WeatherInfo = React.createFactory(React.createClass({
     render: function() {
-        return div({className: 'weatherInfo'},
-            WeatherIcon({conditionCode: this.props.condition.code}),
-            React.DOM.h2(null, this.props.condition.temp + ' ' + String.fromCharCode(176) + this.props.units),
-            React.DOM.h4(null, this.props.condition.text)
+        return div({className:'row', id: 'weatherInfo'},
+            div({className: 'row'}, 
+                div({className: 'col-xs-offset-5 col-xs-1'},
+                    WeatherIcon({conditionCode: this.props.condition.code})
+                ),
+                div({className: 'col-xs-1'},
+                    React.DOM.span({className: 'weatherTemperature'}, this.props.condition.temp + String.fromCharCode(176) + this.props.units)
+                )
+            ),
+            div({className: 'row'}, 
+                div({className: 'col-xs-offset-5 col-xs-2'},
+                    React.DOM.h4(null, this.props.condition.text)
+                )
+            )
         );
     }
 }));
