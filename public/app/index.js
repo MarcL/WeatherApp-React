@@ -68,12 +68,18 @@ var WeatherIcon = React.createFactory(React.createClass({
             // Not found
             iconName = 'wi-alien';
         }
-        return 'wi wi-5x ' + iconName;
+        return 'wi ' + iconName;
     },
     render: function() {
-        return div({className: 'weatherInfo'},
-            React.DOM.i({className: this.getWeatherIconFromConditionCode(this.props.conditionCode)})
+        return div(null,
+            React.DOM.i({className: this.getWeatherIconFromConditionCode(this.props.conditionCode), style: {fontSize: this.props.fontSize}})
         );
+    }
+}));
+
+var WeatherTemperature = React.createFactory(React.createClass({
+    render: function() {
+        return React.DOM.span({className: 'weatherTemperature', style: {fontSize: this.props.fontSize}}, this.props.temperature + String.fromCharCode(176) + this.props.units);
     }
 }));
 
@@ -82,10 +88,10 @@ var WeatherInfo = React.createFactory(React.createClass({
         return div({className:'row', id: 'weatherInfo'},
             div({className: 'row'}, 
                 div({className: 'col-xs-offset-5 col-xs-1'},
-                    WeatherIcon({conditionCode: this.props.condition.code})
+                    WeatherIcon({conditionCode: this.props.condition.code, fontSize: '5em'})
                 ),
                 div({className: 'col-xs-1'},
-                    React.DOM.span({className: 'weatherTemperature'}, this.props.condition.temp + String.fromCharCode(176) + this.props.units)
+                    WeatherTemperature({temperature: this.props.condition.temp, units: this.props.units, fontSize: '5em'})
                 )
             ),
             div({className: 'row'}, 
@@ -118,7 +124,31 @@ var YahooAttribution = React.createFactory(React.createClass({
     }
 }));
 
-//<a href="" target="_blank"> <img src="" width="134" height="29"/> </a>
+var WeatherForecast = React.createFactory(React.createClass({
+    render: function() {
+        var forecastProps = this.props;
+        var forecastComponents = this.props.forecast.map(function(forecastItem) {
+            return div({className: 'row'},
+                div({className: 'col-xs-offset-4 col-xs-1'},
+                    React.DOM.h3(null, forecastItem.day)
+                ),
+                div({className: 'col-xs-1'},
+                    WeatherIcon({conditionCode: forecastItem.code, fontSize: '2em'})
+                ),
+                div({className: 'col-xs-1'},
+                    WeatherTemperature({temperature: forecastItem.high, units: forecastProps.units, fontSize: '2em'})
+                ),
+                div({className: 'col-xs-1'},
+                    WeatherTemperature({temperature: forecastItem.low, units: forecastProps.units, fontSize: '2em'})
+                )
+            );
+        });
+        return div({className: 'WeatherForecastRow'},
+            React.DOM.h3(null, '5 Day Forecast'),
+            forecastComponents
+        );
+    }
+}));
 
 var WeatherApp = React.createFactory(React.createClass({
     createYahooWeatherUrl: function(city, units) {
@@ -161,6 +191,11 @@ var WeatherApp = React.createFactory(React.createClass({
                 }),
                 // Date
                 WeatherDate({pubDate: this.state.weatherData.item.pubDate}),
+                // 5 day forecast
+                WeatherForecast({
+                    forecast: this.state.weatherData.item.forecast,
+                    units: this.state.weatherData.units.temperature
+                }),
                 // Attribution
                 YahooAttribution({link: this.state.weatherData.link})
             );
