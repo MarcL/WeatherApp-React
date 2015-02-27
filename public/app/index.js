@@ -174,7 +174,7 @@ var WeatherApp = React.createFactory(React.createClass({
         return {
             weatherData: null,
             units: 'c',
-            city: 'warrington, uk'
+            city: this.props.city
         };
     },
     componentDidMount: function() {
@@ -211,6 +211,6 @@ var WeatherApp = React.createFactory(React.createClass({
 }));
 
 React.render(
-    WeatherApp({pollInterval: 30000}),
+    WeatherApp({pollInterval: 30000, city: 'Manchester, UK'}),
     document.getElementById('mainDiv')
 );
