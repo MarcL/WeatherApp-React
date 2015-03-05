@@ -18,5 +18,9 @@
   },
   "devDependencies": {
     "jshint": "^2.6.0"
+  },
+  "repository": {
+  "type": "git",
+  "url": "https://github.com/MarcL/WeatherApp-React"
   }
 }
