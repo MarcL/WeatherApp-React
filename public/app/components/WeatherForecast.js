@@ -9,7 +9,7 @@ define(function (require) {
 
             var forecastProps = this.props;
             var forecastComponents = this.props.forecast.map(function(forecastItem) {
-                return div({className: 'row weatherForecastRow'},
+                return div({className: 'row weatherForecastRow', key: forecastItem.day},
                     div({className: 'col-xs-offset-4 col-xs-1'},
                         React.DOM.h3(null, forecastItem.day)
                     ),
