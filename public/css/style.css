@@ -1,0 +1,28 @@
+#mainDiv {
+  text-align: center;
+}
+
+#weatherInfo {
+  padding: 20px 0 0 20px;
+}
+
+.weatherTempHigh {
+  color: #fff;
+}
+
+.weatherTempLow {
+  color: #98ACC0;
+}
+
+.wi { padding-top: 20px; }
+
+.weatherDate {color: #aaa;}
+
+.dayCloudy {color: #F7F7A9;}
+.dayRainy {color: #4CB8FF;}
+.daySunny {color: #FFD82B;}
+.daySleet {color: #CDCDC1;}
+.dayStorm {color: #7CCBFF;}
+.dayWindy {color: #E0EEEE;}
+.daySnowy {color: #fff;}
+.nightCloudy {color: #f4af03;}
